@@ -89,7 +89,7 @@ function __cdp_clean_build()
 		return
 	fi
 
-	make -f $1
+	make -f $1 clean
 }
 
 # Builds or cleans the project binaries and/or libraries according to the
@@ -110,8 +110,8 @@ function cdp_build()
 		;;
 
 		--clean|-c)
-			__cdp_clean_directory_structure
 			__cdp_clean_build $CDP_MAKE_PATH
+			__cdp_clean_directory_structure
 		;;
 
 		*)
