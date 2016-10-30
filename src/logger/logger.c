@@ -67,7 +67,7 @@ static inline const int cdp_validate_log_priority(const int priority)
  * @param format The format of the message to be written.
  * @param ... Arguments used to substitute format specifiers in the format
  * buffer with their actual values.
- * @return CDP_SUCCESS if the operation was successfull, CDP_FAILURE otherwise.
+ * @return CDP_SUCCESS if the operation is successfull, CDP_FAILURE otherwise.
  */
 const int cdp_log(const int priority, const char *format, ...)
 {
