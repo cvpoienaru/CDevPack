@@ -35,6 +35,64 @@
 #include <syslog.h>
 
 /**
+ * Checks if the specified argument is a valid logging option.
+ *
+ * @param option The option to be validated.
+ * @return CDP_SUCCESS if the option is valid, CDP_FAILURE otherwise.
+ */
+static inline const int cdp_validate_log_option(const int option)
+{
+	switch(option) {
+		case CDP_LOG_CONS:
+		case CDP_LOG_NDELAY:
+		case CDP_LOG_NOWAIT:
+		case CDP_LOG_ODELAY:
+		case CDP_LOG_PERROR:
+		case CDP_LOG_PID:
+			return CDP_SUCCESS;
+
+		default:
+			return CDP_FAILURE;
+	}
+}
+
+/**
+ * Checks if the specified argument is a valid logging facility.
+ *
+ * @param facility The facility to be validated.
+ * @return CDP_SUCCESS if the facility is valid, CDP_FAILURE otherwise.
+ */
+static inline const int cdp_validate_log_facility(const int facility)
+{
+	switch(facility) {
+		case CDP_LOG_AUTH:
+		case CDP_LOG_AUTHPRIV:
+		case CDP_LOG_CRON:
+		case CDP_LOG_DAEMON:
+		case CDP_LOG_FTP:
+		case CDP_LOG_KERN:
+		case CDP_LOG_LOCAL0:
+		case CDP_LOG_LOCAL1:
+		case CDP_LOG_LOCAL2:
+		case CDP_LOG_LOCAL3:
+		case CDP_LOG_LOCAL4:
+		case CDP_LOG_LOCAL5:
+		case CDP_LOG_LOCAL6:
+		case CDP_LOG_LOCAL7:
+		case CDP_LOG_LPR:
+		case CDP_LOG_MAIL:
+		case CDP_LOG_NEWS:
+		case CDP_LOG_SYSLOG:
+		case CDP_LOG_USER:
+		case CDP_LOG_UUCP:
+			return CDP_SUCCESS;
+
+		default:
+			return CDP_FAILURE;
+	}
+}
+
+/**
  * Checks if the specified argument is a valid logging priority.
  *
  * @param priority The priority to be validated.
@@ -59,22 +117,51 @@ static inline const int cdp_validate_log_priority(const int priority)
 }
 
 /**
+ * Opens a connection to the system logger for the current identity, using the
+ * specified option flags and the specified default facility for subsequent
+ * logger calls.
+ *
+ * @param identity The identity to be prepended before each log message.
+ * @param option The option flags to be used when opening the system logger
+ * connection.
+ * @param facility The default facility to be used for subsequent system logger
+ * calls.
+ */
+void cdp_open_log(const char *identity, const int option, const int facility)
+{
+	if(!identity)
+		return;
+	if(cdp_validate_log_option(option) != CDP_SUCCESS)
+		return;
+	if(cdp_validate_log_facility(facility) != CDP_SUCCESS)
+		return;
+
+	openlog(identity, option, facility);
+}
+
+/**
+ * Closes the connection to the system logger.
+ */
+void cdp_close_log(void)
+{
+	closelog();
+}
+
+/**
  * Writes a message in the given format, having a specific priority, to the
- * default logging repository. The priority is represented by different logger
- * levels.
+ * system logger. The priority is represented by different logger levels.
  *
  * @param priority The priority of the message to be written.
  * @param format The format of the message to be written.
  * @param ... Arguments used to substitute format specifiers in the format
  * buffer with their actual values.
- * @return CDP_SUCCESS if the operation is successfull, CDP_FAILURE otherwise.
  */
-const int cdp_log(const int priority, const char *format, ...)
+void cdp_log(const int priority, const char *format, ...)
 {
 	if(cdp_validate_log_priority(priority) != CDP_SUCCESS)
-		return CDP_FAILURE;
+		return;
 	if(!format)
-		return CDP_FAILURE;
+		return;
 
 	va_list args;
 
@@ -82,6 +169,4 @@ const int cdp_log(const int priority, const char *format, ...)
 	va_start(args, format);
 	vsyslog(priority, format, args);
 	va_end(args);
-
-	return CDP_SUCCESS;
 }

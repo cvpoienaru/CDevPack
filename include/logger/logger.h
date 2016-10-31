@@ -36,6 +36,36 @@
  * if deciding to port the logger to non-UNIX environments.
  */
 
+/** Define custom logger option wrappers. */
+#define CDP_LOG_CONS LOG_CONS
+#define CDP_LOG_NDELAY LOG_NDELAY
+#define CDP_LOG_NOWAIT LOG_NOWAIT
+#define CDP_LOG_ODELAY LOG_ODELAY
+#define CDP_LOG_PERROR LOG_PERROR
+#define CDP_LOG_PID LOG_PID
+
+/** Define custom logger facility wrappers. */
+#define CDP_LOG_AUTH LOG_AUTH
+#define CDP_LOG_AUTHPRIV LOG_AUTHPRIV
+#define CDP_LOG_CRON LOG_CRON
+#define CDP_LOG_DAEMON LOG_DAEMON
+#define CDP_LOG_FTP LOG_FTP
+#define CDP_LOG_KERN LOG_KERN
+#define CDP_LOG_LOCAL0 LOG_LOCAL0
+#define CDP_LOG_LOCAL1 LOG_LOCAL1
+#define CDP_LOG_LOCAL2 LOG_LOCAL2
+#define CDP_LOG_LOCAL3 LOG_LOCAL3
+#define CDP_LOG_LOCAL4 LOG_LOCAL4
+#define CDP_LOG_LOCAL5 LOG_LOCAL5
+#define CDP_LOG_LOCAL6 LOG_LOCAL6
+#define CDP_LOG_LOCAL7 LOG_LOCAL7
+#define CDP_LOG_LPR LOG_LPR
+#define CDP_LOG_MAIL LOG_MAIL
+#define CDP_LOG_NEWS LOG_NEWS
+#define CDP_LOG_SYSLOG LOG_SYSLOG
+#define CDP_LOG_USER LOG_USER
+#define CDP_LOG_UUCP LOG_UUCP
+
 /** Define custom logger level wrappers. */
 #define CDP_LOG_EMERG LOG_EMERG
 #define CDP_LOG_ALERT LOG_ALERT
@@ -47,16 +77,32 @@
 #define CDP_LOG_DEBUG LOG_DEBUG
 
 /**
+ * Opens a connection to the system logger for the current identity, using the
+ * specified option flags and the specified default facility for subsequent
+ * logger calls.
+ *
+ * @param identity The identity to be prepended before each log message.
+ * @param option The option flags to be used when opening the system logger
+ * connection.
+ * @param facility The default facility to be used for subsequent system logger
+ * calls.
+ */
+void cdp_open_log(const char *identity, const int option, const int facility);
+
+/**
+ * Closes the connection to the system logger.
+ */
+void cdp_close_log(void);
+
+/**
  * Writes a message in the given format, having a specific priority, to the
- * default logging repository. The priority is represented by different logger
- * levels.
+ * system logger. The priority is represented by different logger levels.
  *
  * @param priority The priority of the message to be written.
  * @param format The format of the message to be written.
  * @param ... Arguments used to substitute format specifiers in the format
  * buffer with their actual values.
- * @return CDP_SUCCESS if the operation is successfull, CDP_FAILURE otherwise.
  */
-const int cdp_log(const int priority, const char *format, ...);
+void cdp_log(const int priority, const char *format, ...);
 
 #endif /* C_DEV_PACK_LOGGER_LOGGER_H_ */
