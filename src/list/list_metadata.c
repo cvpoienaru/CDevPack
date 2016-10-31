@@ -49,6 +49,27 @@ struct cdp_list_metadata* cdp_create_list_metadata(void)
 	return metadata;
 }
 
+struct cdp_list_metadata* cdp_create_list_metadata_copy(
+	struct cdp_list_metadata *metadata)
+{
+	struct cdp_list_metadata *metadata_copy = NULL;
+
+	if(!metadata) {
+		cdp_log(CDP_LOG_ERR, "Error: No list metadata to copy.");
+		return metadata_copy;
+	}
+	if(cdp_validate_list_metadata(metadata) != CDP_SUCCESS) {
+		cdp_log(CDP_LOG_ERR, "Error: List metadata failed validation.");
+		return metadata_copy;
+	}
+
+	metadata_copy = cdp_create_list_metadata();
+	metadata_copy->items_used = metadata->items_used;
+	metadata_copy->items_allocated = metadata->items_allocated;
+
+	return metadata_copy;
+}
+
 void cdp_destroy_list_metadata(struct cdp_list_metadata **metadata)
 {
 	if(!metadata || !(*metadata)) {
@@ -121,4 +142,66 @@ const cdp_size_t cdp_get_list_metadata_items_allocated(
 	}
 
 	return metadata->items_allocated;
+}
+
+const int cdp_set_list_metadata_items_used(
+	struct cdp_list_metadata *metadata, cdp_size_t items_used)
+{
+	if(!metadata) {
+		cdp_log(CDP_LOG_ERR, "Error: Invalid list metadata pointer.");
+		return CDP_FAILURE;
+	}
+	if(cdp_validate_list_metadata(metadata) != CDP_SUCCESS) {
+		cdp_log(CDP_LOG_ERR, "Error: List metadata failed validation.");
+		return CDP_FAILURE;
+	}
+	if(items_used < 0) {
+		cdp_log(
+			CDP_LOG_ERR,
+			"Error: Invalid number of list metadata items used (%li).",
+			items_used);
+		return CDP_FAILURE;
+	}
+	if(items_used > metadata->items_allocated) {
+		cdp_log(
+			CDP_LOG_ERR,
+			"Error: Items used (%li) are greater than items allocated (%li).",
+			items_used,
+			metadata->items_allocated);
+		return CDP_FAILURE;
+	}
+
+	metadata->items_used = items_used;
+	return CDP_SUCCESS;
+}
+
+const int cdp_set_list_metadata_items_allocated(
+	struct cdp_list_metadata *metadata, cdp_size_t items_allocated)
+{
+	if(!metadata) {
+		cdp_log(CDP_LOG_ERR, "Error: Invalid list metadata pointer.");
+		return CDP_FAILURE;
+	}
+	if(cdp_validate_list_metadata(metadata) != CDP_SUCCESS) {
+		cdp_log(CDP_LOG_ERR, "Error: List metadata failed validation.");
+		return CDP_FAILURE;
+	}
+	if(items_allocated < 0) {
+		cdp_log(
+			CDP_LOG_ERR,
+			"Error: Invalid number of list metadata items allocated (%li).",
+			items_allocated);
+		return CDP_FAILURE;
+	}
+	if(metadata->items_used > items_allocated) {
+		cdp_log(
+			CDP_LOG_ERR,
+			"Error: Items used (%li) are greater than items allocated (%li).",
+			metadata->items_used,
+			items_allocated);
+		return CDP_FAILURE;
+	}
+
+	metadata->items_allocated = items_allocated;
+	return CDP_SUCCESS;
 }

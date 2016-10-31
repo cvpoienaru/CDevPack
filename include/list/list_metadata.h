@@ -47,4 +47,10 @@ const cdp_size_t cdp_get_list_metadata_items_used(
 const cdp_size_t cdp_get_list_metadata_items_allocated(
 	struct cdp_list_metadata *metadata);
 
+const int cdp_set_list_metadata_items_used(
+	struct cdp_list_metadata *metadata, cdp_size_t items_used);
+
+const int cdp_set_list_metadata_items_allocated(
+	struct cdp_list_metadata *metadata, cdp_size_t items_allocated);
+
 #endif /* C_DEV_PACK_LIST_LIST_METADATA_H_ */
