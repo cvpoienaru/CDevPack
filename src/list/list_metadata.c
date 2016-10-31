@@ -64,6 +64,11 @@ struct cdp_list_metadata* cdp_create_list_metadata_copy(
 	}
 
 	metadata_copy = cdp_create_list_metadata();
+	if(!metadata_copy) {
+		cdp_log(CDP_LOG_ERR, "Error: Cannot create list metadata copy.");
+		return metadata_copy;
+	}
+
 	metadata_copy->items_used = metadata->items_used;
 	metadata_copy->items_allocated = metadata->items_allocated;
 
