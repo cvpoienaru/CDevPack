@@ -28,6 +28,8 @@
 #ifndef C_DEV_PACK_LOGGER_LOGGER_H_
 #define C_DEV_PACK_LOGGER_LOGGER_H_
 
+#include <defs.h>
+
 #include <syslog.h>
 
 /**
