@@ -100,7 +100,6 @@ const cdp_size_t cdp_get_list_metadata_items_used(
 		cdp_log(CDP_LOG_ERR, "Error: Invalid list metadata pointer.");
 		return CDP_SIZE_INVALID;
 	}
-
 	if(cdp_validate_list_metadata(metadata) != CDP_SUCCESS) {
 		cdp_log(CDP_LOG_ERR, "Error: List metadata failed validation.");
 		return CDP_SIZE_INVALID;
@@ -116,7 +115,6 @@ const cdp_size_t cdp_get_list_metadata_items_allocated(
 		cdp_log(CDP_LOG_ERR, "Error: Invalid list metadata pointer.");
 		return CDP_SIZE_INVALID;
 	}
-
 	if(cdp_validate_list_metadata(metadata) != CDP_SUCCESS) {
 		cdp_log(CDP_LOG_ERR, "Error: List metadata failed validation.");
 		return CDP_SIZE_INVALID;
@@ -130,6 +128,10 @@ const int cdp_set_list_metadata_items_used(
 {
 	if(!metadata) {
 		cdp_log(CDP_LOG_ERR, "Error: Invalid list metadata pointer.");
+		return CDP_FAILURE;
+	}
+	if(cdp_validate_list_metadata(metadata) != CDP_SUCCESS) {
+		cdp_log(CDP_LOG_ERR, "Error: List metadata failed validation.");
 		return CDP_FAILURE;
 	}
 	if(items_used < 0) {
@@ -148,11 +150,6 @@ const int cdp_set_list_metadata_items_used(
 		return CDP_FAILURE;
 	}
 
-	if(cdp_validate_list_metadata(metadata) != CDP_SUCCESS) {
-		cdp_log(CDP_LOG_ERR, "Error: List metadata failed validation.");
-		return CDP_FAILURE;
-	}
-
 	metadata->items_used = items_used;
 	return CDP_SUCCESS;
 }
@@ -162,6 +159,10 @@ const int cdp_set_list_metadata_items_allocated(
 {
 	if(!metadata) {
 		cdp_log(CDP_LOG_ERR, "Error: Invalid list metadata pointer.");
+		return CDP_FAILURE;
+	}
+	if(cdp_validate_list_metadata(metadata) != CDP_SUCCESS) {
+		cdp_log(CDP_LOG_ERR, "Error: List metadata failed validation.");
 		return CDP_FAILURE;
 	}
 	if(items_allocated < 0) {
@@ -177,11 +178,6 @@ const int cdp_set_list_metadata_items_allocated(
 			"Error: Items used (%li) are greater than items allocated (%li).",
 			metadata->items_used,
 			items_allocated);
-		return CDP_FAILURE;
-	}
-
-	if(cdp_validate_list_metadata(metadata) != CDP_SUCCESS) {
-		cdp_log(CDP_LOG_ERR, "Error: List metadata failed validation.");
 		return CDP_FAILURE;
 	}
 
