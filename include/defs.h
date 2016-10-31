@@ -47,6 +47,7 @@
 typedef unsigned int cdp_size_t;
 typedef unsigned int cdp_index_t;
 
+/** Define invalid values for the generic data types. */
 #define CDP_SIZE_INVALID -1
 #define CDP_INDEX_INVALID -1
 
