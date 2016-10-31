@@ -25,29 +25,17 @@
  * possibility of such damage.
  */
 
-#ifndef C_DEV_PACK_DEFS_H_
-#define C_DEV_PACK_DEFS_H_
+#ifndef C_DEV_PACK_LIST_ARRAY_LIST_H_
+#define C_DEV_PACK_LIST_ARRAY_LIST_H_
 
-#include <stdlib.h>
+#include <defs.h>
+#include <list/list_metadata.h>
 
-/** Define the boolean values here if not already defined. */
-#if !defined(FALSE) && !defined(TRUE)
-#define FALSE 0
-#define TRUE !(FALSE)
-#endif
+struct cdp_array_list {
+	struct cdp_list_metadata *metadata;
+	cdp_index_t head_index;
+	cdp_index_t tail_index;
+	void **data;
+};
 
-/** Define both successfull and unsuccessfull generic operation codes. */
-#define CDP_SUCCESS EXIT_SUCCESS
-#define CDP_FAILURE EXIT_FAILURE
-
-/**
- * Define new generic data types to use throughout the codebase for portability
- * concerns.
- */
-typedef unsigned int cdp_size_t;
-typedef unsigned int cdp_index_t;
-
-#define CDP_SIZE_INVALID -1
-#define CDP_INDEX_INVALID -1
-
-#endif /* C_DEV_PACK_DEFS_H_ */
+#endif /* C_DEV_PACK_LIST_ARRAY_LIST_H_ */

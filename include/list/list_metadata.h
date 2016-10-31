@@ -25,29 +25,32 @@
  * possibility of such damage.
  */
 
-#ifndef C_DEV_PACK_DEFS_H_
-#define C_DEV_PACK_DEFS_H_
+#ifndef C_DEV_PACK_LIST_LIST_METADATA_H_
+#define C_DEV_PACK_LIST_LIST_METADATA_H_
 
-#include <stdlib.h>
+#include <defs.h>
 
-/** Define the boolean values here if not already defined. */
-#if !defined(FALSE) && !defined(TRUE)
-#define FALSE 0
-#define TRUE !(FALSE)
-#endif
+struct cdp_list_metadata {
+	cdp_size_t items_used;
+	cdp_size_t items_allocated;
+};
 
-/** Define both successfull and unsuccessfull generic operation codes. */
-#define CDP_SUCCESS EXIT_SUCCESS
-#define CDP_FAILURE EXIT_FAILURE
+struct cdp_list_metadata* cdp_create_list_metadata(void);
 
-/**
- * Define new generic data types to use throughout the codebase for portability
- * concerns.
- */
-typedef unsigned int cdp_size_t;
-typedef unsigned int cdp_index_t;
+void cdp_destroy_list_metadata(struct cdp_list_metadata **metadata);
 
-#define CDP_SIZE_INVALID -1
-#define CDP_INDEX_INVALID -1
+const int cdp_validate_list_metadata(struct cdp_list_metadata *metadata);
 
-#endif /* C_DEV_PACK_DEFS_H_ */
+const cdp_size_t cdp_get_list_metadata_items_used(
+	struct cdp_list_metadata *metadata);
+
+const cdp_size_t cdp_get_list_metadata_items_allocated(
+	struct cdp_list_metadata *metadata);
+
+const int cdp_set_list_metadata_items_used(
+	struct cdp_list_metadata *metadata, cdp_size_t items_used);
+
+const int cdp_set_list_metadata_items_allocated(
+	struct cdp_list_metadata *metadata, cdp_size_t items_allocated);
+
+#endif /* C_DEV_PACK_LIST_LIST_METADATA_H_ */

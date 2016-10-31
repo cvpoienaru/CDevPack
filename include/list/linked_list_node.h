@@ -25,29 +25,15 @@
  * possibility of such damage.
  */
 
-#ifndef C_DEV_PACK_DEFS_H_
-#define C_DEV_PACK_DEFS_H_
+#ifndef C_DEV_PACK_LIST_LINKED_LIST_NODE_H_
+#define C_DEV_PACK_LIST_LINKED_LIST_NODE_H_
 
-#include <stdlib.h>
+#include <defs.h>
 
-/** Define the boolean values here if not already defined. */
-#if !defined(FALSE) && !defined(TRUE)
-#define FALSE 0
-#define TRUE !(FALSE)
-#endif
+struct cdp_linked_list_node {
+	struct cdp_linked_list_node *prev;
+	struct cdp_linked_list_node *next;
+	void *data;
+};
 
-/** Define both successfull and unsuccessfull generic operation codes. */
-#define CDP_SUCCESS EXIT_SUCCESS
-#define CDP_FAILURE EXIT_FAILURE
-
-/**
- * Define new generic data types to use throughout the codebase for portability
- * concerns.
- */
-typedef unsigned int cdp_size_t;
-typedef unsigned int cdp_index_t;
-
-#define CDP_SIZE_INVALID -1
-#define CDP_INDEX_INVALID -1
-
-#endif /* C_DEV_PACK_DEFS_H_ */
+#endif /* C_DEV_PACK_LIST_LINKED_LIST_NODE_H_ */

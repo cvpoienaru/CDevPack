@@ -30,7 +30,12 @@ CDP_LIB_SRC = $(CDP_SRC)
 CDP_LIB_OUT = $(CDP_LIB)/$(CDP_LIB_PREFIX)$(CDP_LIB_NAME).$(CDP_LIB_EXTENSION)
 
 # Library source & object files
-CDP_SOURCES = $(CDP_LIB_SRC)/logger/logger.c
+CDP_SOURCES = $(CDP_LIB_SRC)/logger/logger.c \
+	$(CDP_LIB_SRC)/list/linked_list_node.c \
+	$(CDP_LIB_SRC)/list/linked_list.c \
+	$(CDP_LIB_SRC)/list/array_list.c \
+	$(CDP_LIB_SRC)/list/list_metadata.c \
+	$(CDP_LIB_SRC)/list/list.c
 CDP_OBJECTS = $(CDP_SOURCES:.c=.o)
 
 # Compiler options
