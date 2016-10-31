@@ -37,6 +37,9 @@ struct cdp_list_metadata {
 
 struct cdp_list_metadata* cdp_create_list_metadata(void);
 
+struct cdp_list_metadata* cdp_create_list_metadata_copy(
+	struct cdp_list_metadata *metadata);
+
 void cdp_destroy_list_metadata(struct cdp_list_metadata **metadata);
 
 const int cdp_validate_list_metadata(struct cdp_list_metadata *metadata);
